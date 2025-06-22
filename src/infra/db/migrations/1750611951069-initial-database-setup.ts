@@ -11,14 +11,13 @@ export async function up(db: Kysely<any>): Promise<void> {
 
   await db.schema
     .createTable('account')
-    .addColumn('id', 'bigserial', (col) => col.primaryKey())
+    .addColumn('number', 'bigserial', (col) => col.primaryKey())
     .addColumn('bearer_document', 'varchar(14)', (col) =>
       col.notNull().references('bearer.document').onDelete('cascade'),
     )
     .addColumn('balance', 'numeric(50, 2)', (col) => col.notNull())
     .addColumn('branch', 'varchar(5)', (col) => col.notNull())
     .addColumn('status', 'varchar(15)', (col) => col.notNull())
-    .addColumn('account_number', 'bigserial', (col) => col.unique().notNull())
     .addColumn('created_at', 'timestamp', (col) => col.defaultTo(sql`now()`))
     .addColumn('updated_at', 'timestamp', (col) => col.defaultTo(sql`now()`))
     .execute();
@@ -26,8 +25,8 @@ export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
     .createTable('bank_statement')
     .addColumn('id', 'bigserial', (col) => col.primaryKey())
-    .addColumn('account_id', 'bigint', (col) =>
-      col.notNull().references('account.id').onDelete('cascade'),
+    .addColumn('account_number', 'bigint', (col) =>
+      col.notNull().references('account.number').onDelete('cascade'),
     )
     .addColumn('type', 'varchar(8)', (col) => col.notNull())
     .addColumn('amount', 'numeric(50, 2)', (col) => col.notNull())
@@ -44,7 +43,7 @@ export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
     .createIndex('bank_statement_account_index')
     .on('bank_statement')
-    .column('account_id')
+    .column('account_number')
     .execute();
 
   await db.schema
