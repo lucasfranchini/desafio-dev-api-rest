@@ -10,3 +10,20 @@ services:
       - .:/usr/src/app
     env_file:
       - .env
+  db:
+    image: postgres:13
+    container_name: 'dock-baas-accounts-svc-db'
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - './tmp/db/data:/var/lib/postgresql/data'
+    environment:
+      - POSTGRES_DB=database
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    healthcheck:
+      test: pg_isready --username=user --dbname=database
+      interval: 1s
+      timeout: 5s
+      retries: 5
