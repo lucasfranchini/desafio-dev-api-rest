@@ -1,0 +1,23 @@
+FROM node:20-alpine
+
+RUN apk update && apk add bash
+
+RUN corepack enable
+
+ARG npmrc
+ARG mode
+
+# Create and change to the app directory.
+WORKDIR /usr/src/app
+
+# Copy local code to the container image.
+COPY . ./
+
+# Install dependencies
+RUN npm install && npm run build
+
+ENV PORT=3000
+EXPOSE $PORT
+
+# Run the web service on container startup.
+CMD [ "npm", "run", "start:dev" ]
