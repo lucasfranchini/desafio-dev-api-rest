@@ -20,7 +20,9 @@
     "test:e2e": "jest --verbose --config ./jest-e2e.config.ts",
     "test:e2e:cov": "jest --verbose --config ./jest-e2e.config.ts --coverage",
     "lint:ci": "eslint src/**/*.ts",
-    "test:ci": "NODE_ENV=test node --expose-gc --no-compilation-cache ./node_modules/jest/bin/jest.js --coverage --no-cache --runInBand --config ./test/jest.config.json --logHeapUsage"
+    "test:ci": "NODE_ENV=test node --expose-gc --no-compilation-cache ./node_modules/jest/bin/jest.js --coverage --no-cache --runInBand --config ./test/jest.config.json --logHeapUsage",
+    "migration:run": "ts-node src/infra/db/scripts/run-migrations.ts",
+    "migration:down": "ts-node src/infra/db/scripts/down-migrations.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
