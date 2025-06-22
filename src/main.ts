@@ -1,15 +1,24 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import helmet from 'helmet';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-
   const app = await NestFactory.create(AppModule);
+  const env = app.get(ConfigService);
+  const port = env.get('APP_PORT');
 
+  const config = new DocumentBuilder()
+    .setTitle(env.get('SERVICE_NAME'))
+    .setDescription(`Documentação do ${env.get('SERVICE_NAME')}`)
+    .setVersion(process.env.npm_package_version)
+    .build();
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
 
-  const configService = app.get(ConfigService);
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -17,18 +26,12 @@ async function bootstrap() {
       stopAtFirstError: true,
     }),
   );
-
-  app.use(
-    helmet({
-      hsts: { maxAge: 31536000 },
-    }),
-  );
-
+  app.setGlobalPrefix('/api');
   app.enableCors();
 
   app.enableShutdownHooks();
 
-  const port = configService.get('APP_PORT');
+  SwaggerModule.setup('/doc', app, documentFactory);
 
   await app.listen(port);
 }
