@@ -1,7 +1,7 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common/decorators/modules';
-import { AccountsGateway } from './abstract/accounts.gateway';
-import { AccountsGatewayImpl } from './impl/accounts.gateway';
+import { AccountsGateway } from './accounts/abstract/accounts.gateway';
+import { AccountsGatewayImpl } from './accounts/impl/accounts.gateway';
 
 const gateways = [
   {
@@ -15,4 +15,4 @@ const gateways = [
   exports: [AccountsGateway],
   providers: gateways,
 })
-export class AccountsGatewayModule {}
+export class GatewaysModule {}
