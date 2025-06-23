@@ -11,6 +11,7 @@ export class CreateBearerValidator {
       message: 'o documento deve possuir apenas digitos',
     },
   )
+  @ApiProperty({ description: 'cpf do portador' })
   document: string;
 
   @MaxLength(255, {

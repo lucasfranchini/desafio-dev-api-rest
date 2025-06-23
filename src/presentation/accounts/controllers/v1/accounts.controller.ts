@@ -1,8 +1,17 @@
 import { FindAccountByNumberService } from '@application/accounts/v1/find-account-by-number.usecase';
 import { UpdateAccountStatusService } from '@application/accounts/v1/update-account-status';
 import { AccountDTO } from '@domain/accounts/dtos/account.dto';
-import { Controller, Get, Param, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { BalanceMovementValidator } from '@presentation/accounts/validators/balance-movement.validatos';
 import { SwaggerDocDecorator } from 'src/commons/decorators/swagger-doc.decorator';
 import { ErrorsMessage, ErrorsSource } from 'src/commons/errors/enums';
 import { handleError } from 'src/commons/errors/functions';
@@ -70,4 +79,25 @@ export class AccountsV1Controller {
       handleError(ErrorsSource.UPDATE_STATUS_ACCOUNT, error);
     }
   }
+
+  @Post('/balance/movement')
+  @HttpCode(200)
+  @ApiResponse({
+    status: 200,
+    description: 'movimentação de saldo realizada com sucesso',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Dados inválidos para movimentação de saldo',
+  })
+  @SwaggerDocDecorator('movimentação do saldo da conta')
+  async balanceMovement(@Body() body: BalanceMovementValidator) {
+    try {
+      console.log(body);
+    } catch (error) {
+      handleError(ErrorsSource.UPDATE_STATUS_ACCOUNT, error);
+    }
+  }
 }
+
+//TODO: adicionar tupagem para documentação do swagger
