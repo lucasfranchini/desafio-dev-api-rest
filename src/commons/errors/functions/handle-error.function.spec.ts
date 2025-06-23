@@ -11,7 +11,7 @@ describe('handleError() unit tests', () => {
 
         try {
           handleError(ErrorsSource.CREATE_ACCOUNT, httpException);
-        } catch (error) {
+        } catch (error: any) {
           expect(error).toBeInstanceOf(HttpException);
           expect(error).toBe(httpException);
           expect(error.status).toBe(HttpStatus.BAD_REQUEST);
@@ -27,7 +27,7 @@ describe('handleError() unit tests', () => {
 
         try {
           handleError(ErrorsSource.CREATE_ACCOUNT, error);
-        } catch (error) {
+        } catch (error: any) {
           expect(error).toBeInstanceOf(UnexpectedError);
           expect(error.status).toBe(HttpStatus.INTERNAL_SERVER_ERROR);
           expect(error.message).toBe(error.message);
@@ -43,7 +43,7 @@ describe('handleError() unit tests', () => {
 
         try {
           handleError(ErrorsSource.CREATE_ACCOUNT, error);
-        } catch (error) {
+        } catch (error: any) {
           expect(error).toBeInstanceOf(UnexpectedError);
           expect(error.status).toBe(HttpStatus.INTERNAL_SERVER_ERROR);
           expect(error.message).toBe(ErrorsMessage.DEFAULT);

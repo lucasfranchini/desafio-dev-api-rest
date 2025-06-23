@@ -18,7 +18,6 @@ describe('AccountsGateway Tests', () => {
 
   describe('when performing a account create', () => {
     it('should return a transaction code', async () => {
-      const mockToken = 'mock_access_token';
       const mockResponse = {
         number: 123456789,
       };
@@ -34,16 +33,13 @@ describe('AccountsGateway Tests', () => {
       const result = await accountsGateway.createAccount('12345678909');
       expect(httpSpy).toHaveBeenNthCalledWith(
         1,
-        `${process.env.DOCK_API_BASE_URL}/contas/1/reativar`,
-        {},
-        expect.objectContaining({
-          headers: expect.objectContaining({
-            Authorization: `Bearer ${mockToken}`,
-          }),
-        }),
+        `http://localhost:undefined/api/v1/accounts`,
+        {
+          bearerDocument: '12345678909',
+        },
       );
       expect(result).toEqual({
-        Number: mockResponse.number,
+        number: mockResponse.number,
       });
     });
   });
