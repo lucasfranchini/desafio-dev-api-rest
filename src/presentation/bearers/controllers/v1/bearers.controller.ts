@@ -1,5 +1,13 @@
 import { CreateBearerService } from '@application/bearers/v1/create-bearer.service';
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import { DeleteBearerService } from '@application/bearers/v1/delete-bearer.service';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateBearerValidator } from '@presentation/bearers/validators/create-bearer.validator';
 import validateDocument from '@presentation/bearers/validators/document.validator';
@@ -10,7 +18,10 @@ import { handleError } from 'src/commons/errors/functions';
 @ApiTags('bearers')
 @Controller({ version: '1', path: 'bearers' })
 export class BearersV1Controller {
-  constructor(private readonly createBearerService: CreateBearerService) {}
+  constructor(
+    private readonly createBearerService: CreateBearerService,
+    private readonly deleteBearerService: DeleteBearerService,
+  ) {}
 
   @Post()
   @SwaggerDocDecorator('criação de um portador no banco de dados')
@@ -31,24 +42,24 @@ export class BearersV1Controller {
     }
   }
 
-  // @Delete('/:document')
-  // @SwaggerDocDecorator(
-  //   'deleção de um portador no banco de dados e de suas contas associadas',
-  // )
-  // @ApiResponse({
-  //   status: 200,
-  //   description: 'deletado com sucesso',
-  // })
-  // @ApiResponse({ status: 400, description: 'Erro ao tentar criar um portador' })
-  // async deleteBearer(@Param('document') document: string) {
-  //   try {
-  //     const isValidDocument = validateDocument(document);
-  //     if (!isValidDocument) {
-  //       throw new BadRequestException('numero do documento é invalido');
-  //     }
-  //     return await this.createBearerService.execute(body);
-  //   } catch (error) {
-  //     handleError(ErrorsSource.CREATE_ACCOUNT, error);
-  //   }
-  // }
+  @Delete('/:document')
+  @SwaggerDocDecorator(
+    'deleção de um portador no banco de dados e de suas contas associadas',
+  )
+  @ApiResponse({
+    status: 200,
+    description: 'deletado com sucesso',
+  })
+  @ApiResponse({ status: 400, description: 'Erro ao tentar criar um portador' })
+  async deleteBearer(@Param('document') document: string) {
+    try {
+      const isValidDocument = validateDocument(document);
+      if (!isValidDocument) {
+        throw new BadRequestException('numero do documento é invalido');
+      }
+      return await this.deleteBearerService.execute(document);
+    } catch (error) {
+      handleError(ErrorsSource.CREATE_ACCOUNT, error);
+    }
+  }
 }

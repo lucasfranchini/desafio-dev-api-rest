@@ -26,4 +26,11 @@ export class BearersRepositoryImpl implements BearerRepository {
       };
     });
   }
+
+  async deleteByDocument(document: string) {
+    await this.dataSource
+      .deleteFrom('bearer')
+      .where('document', '=', document)
+      .executeTakeFirstOrThrow();
+  }
 }
