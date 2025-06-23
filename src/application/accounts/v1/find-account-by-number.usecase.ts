@@ -10,7 +10,7 @@ export class FindAccountByNumberService {
   async execute(accountNumber: number) {
     const account =
       await this.accountRepository.findByAccountNumber(accountNumber);
-    if (account === null) {
+    if (!account) {
       throw new AccountsNotFound(ErrorsSource.FIND_ACCOUNT_BY_NUMBER);
     }
     return account;

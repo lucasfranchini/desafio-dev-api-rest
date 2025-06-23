@@ -20,6 +20,6 @@ export class AccountRepositoryImpl implements AccountRepository {
       .set({ status })
       .where('number', '=', accountNumber)
       .returningAll()
-      .executeTakeFirstOrThrow();
+      .executeTakeFirst();
   }
 }

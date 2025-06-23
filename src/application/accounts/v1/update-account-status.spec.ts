@@ -31,10 +31,6 @@ describe('UpdateAccountUsecase', () => {
       });
 
       it('Should return updated account id', async () => {
-        jest
-          .spyOn(mockRepository, 'findByAccountNumber')
-          .mockResolvedValueOnce(accountStub);
-
         const { number } = accountStub;
         jest
           .spyOn(mockRepository, 'updateStatus')
@@ -54,7 +50,7 @@ describe('UpdateAccountUsecase', () => {
     describe('When executing use case', () => {
       it('Should throw an error for account not found', async () => {
         jest
-          .spyOn(mockRepository, 'findByAccountNumber')
+          .spyOn(mockRepository, 'updateStatus')
           .mockImplementationOnce(() => null);
 
         await expect(

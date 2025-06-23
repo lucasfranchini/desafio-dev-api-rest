@@ -20,7 +20,7 @@ export class UpdateAccountStatusService {
       AccountStatus[status],
     );
 
-    if (account === null) {
+    if (!account) {
       throw new AccountsNotFound(ErrorsSource.UPDATE_STATUS_ACCOUNT);
     }
 
