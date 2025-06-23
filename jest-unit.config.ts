@@ -2,7 +2,7 @@ import sharedConfig from './jest.config';
 
 export default {
   ...sharedConfig,
-  roots: ['<rootDir>/src', '<rootDir>/test/integration'],
+  roots: ['<rootDir>/src'],
   transform: {
     '.+\\.ts$': 'ts-jest',
   },
