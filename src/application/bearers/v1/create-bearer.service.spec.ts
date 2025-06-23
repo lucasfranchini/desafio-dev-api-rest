@@ -15,11 +15,12 @@ describe('CreateBearerService', () => {
   describe('Given an valid bearer', () => {
     describe('When executing use case', () => {
       it('Should return with accountNumber and document', async () => {
-        jest
-          .spyOn(mockBearerRepository, 'create')
-          .mockImplementationOnce(() =>
-            Promise.resolve({ document: accountStub.bearerDocument }),
-          );
+        jest.spyOn(mockBearerRepository, 'create').mockImplementationOnce(() =>
+          Promise.resolve({
+            document: accountStub.bearerDocument,
+            accountNumber: 1,
+          }),
+        );
 
         const output = await createBearerUseCase.execute({
           document: accountStub.bearerDocument,

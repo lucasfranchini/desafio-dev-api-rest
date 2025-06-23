@@ -23,7 +23,6 @@ export class CreateBearerService {
         account: newAccount,
       });
     } catch (error: any) {
-      console.log(error);
       throw new BearerNotCreated(ErrorsSource.CREATE_BEARER);
     }
   }
