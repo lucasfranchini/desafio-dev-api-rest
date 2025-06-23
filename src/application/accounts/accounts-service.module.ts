@@ -1,8 +1,7 @@
 import { RepositoryModule } from '@infra/db/repositories/repository.module';
 import { Module } from '@nestjs/common';
-import { CreateAccountService } from './v1/create-account.service';
 
-const providers = [CreateAccountService];
+const providers = [];
 
 @Module({
   imports: [RepositoryModule],

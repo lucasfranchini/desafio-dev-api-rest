@@ -30,4 +30,25 @@ export class BearersV1Controller {
       handleError(ErrorsSource.CREATE_ACCOUNT, error);
     }
   }
+
+  // @Delete('/:document')
+  // @SwaggerDocDecorator(
+  //   'deleção de um portador no banco de dados e de suas contas associadas',
+  // )
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'deletado com sucesso',
+  // })
+  // @ApiResponse({ status: 400, description: 'Erro ao tentar criar um portador' })
+  // async deleteBearer(@Param('document') document: string) {
+  //   try {
+  //     const isValidDocument = validateDocument(document);
+  //     if (!isValidDocument) {
+  //       throw new BadRequestException('numero do documento é invalido');
+  //     }
+  //     return await this.createBearerService.execute(body);
+  //   } catch (error) {
+  //     handleError(ErrorsSource.CREATE_ACCOUNT, error);
+  //   }
+  // }
 }
