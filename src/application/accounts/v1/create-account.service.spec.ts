@@ -1,10 +1,10 @@
 import { createMock } from '@golevelup/ts-jest';
-import { AccountRepository } from '@infra/db/repositories/abstractions/account.repository';
+import { AccountRepository } from '@infra/db/repositories/accounts/abstractions/account.repository';
 import {
   accountStub,
   inputCreateAccountStub,
   invalidAccountStub,
-} from '@test/stub/account.stub';
+} from 'test/stub/account.stub';
 import { CreateAccountService } from './create-account.service';
 
 describe('CreateAccountUsecase', () => {
@@ -22,14 +22,14 @@ describe('CreateAccountUsecase', () => {
         jest
           .spyOn(mockRepository, 'create')
           .mockImplementationOnce(() =>
-            Promise.resolve({ accountId: accountStub.accountId }),
+            Promise.resolve({ number: accountStub.number }),
           );
 
         const output = await createAccountUseCase.execute(
           inputCreateAccountStub,
         );
 
-        expect(output).toEqual({ accountId: accountStub.accountId });
+        expect(output).toEqual({ number: accountStub.number });
       });
     });
   });

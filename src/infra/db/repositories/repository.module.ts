@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { CamelCasePlugin, PostgresDialect } from 'kysely';
 import { Pool } from 'pg';
 import { Database } from '../schemas';
-import { AccountRepository } from './abstractions/account.repository';
-import { AccountRepositoryImpl } from './impl/account.repository';
+import { AccountRepository } from './accounts/abstractions/account.repository';
+import { AccountRepositoryImpl } from './accounts/impl/account.repository';
 
 const providers = [
   {
