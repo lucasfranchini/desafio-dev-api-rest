@@ -4,6 +4,8 @@ import { Pool } from 'pg';
 import { Database } from '../schemas';
 import { AccountRepository } from './accounts/abstractions/account.repository';
 import { AccountRepositoryImpl } from './accounts/impl/account.repository';
+import { BearerRepository } from './bearers/abstractions/bearers.repository';
+import { BearersRepositoryImpl } from './bearers/impl/bearers.repository';
 
 const providers = [
   {
@@ -28,6 +30,10 @@ const providers = [
   {
     provide: AccountRepository,
     useClass: AccountRepositoryImpl,
+  },
+  {
+    provide: BearerRepository,
+    useClass: BearersRepositoryImpl,
   },
 ];
 

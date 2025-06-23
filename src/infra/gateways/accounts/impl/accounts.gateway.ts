@@ -14,7 +14,10 @@ export class AccountsGatewayImpl implements AccountsGateway {
   async createAccount(bearerDocument: string) {
     try {
       const response = await firstValueFrom(
-        this.httpService.post(`/contas/`, { bearerDocument }),
+        this.httpService.post(
+          `http://localhost:${process.env.APP_PORT}/api/v1/accounts`,
+          { bearerDocument },
+        ),
       );
       return response.data;
     } catch (error) {
@@ -24,7 +27,7 @@ export class AccountsGatewayImpl implements AccountsGateway {
   handleError(error: any) {
     if (error instanceof AxiosError) {
       throw new HttpException(
-        { source: ErrorsSource.ACCOUNTS_GATEWAY, data: error.response.data },
+        { source: ErrorsSource.ACCOUNTS_GATEWAY, data: error.response },
         error.response.status,
       );
     }

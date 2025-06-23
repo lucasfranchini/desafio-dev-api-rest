@@ -1,4 +1,4 @@
-import { CreateAccountService } from '@application/accounts';
+import { CreateAccountService } from '@application/accounts/v1/create-account.service';
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateAccountValidator } from '@presentation/accounts/validators/create-account.validator';
