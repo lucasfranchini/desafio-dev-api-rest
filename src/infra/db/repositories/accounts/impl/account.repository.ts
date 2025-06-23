@@ -13,4 +13,13 @@ export class AccountRepositoryImpl implements AccountRepository {
       .selectAll()
       .executeTakeFirst();
   }
+
+  async updateStatus(accountNumber: number, status: string) {
+    return await this.dataSource
+      .updateTable('account')
+      .set({ status })
+      .where('number', '=', accountNumber)
+      .returningAll()
+      .executeTakeFirstOrThrow();
+  }
 }

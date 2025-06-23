@@ -1,5 +1,7 @@
 import { FindAccountByNumberService } from '@application/accounts/v1/find-account-by-number.usecase';
-import { Controller, Get, Param } from '@nestjs/common';
+import { UpdateAccountStatusService } from '@application/accounts/v1/update-account-status';
+import { AccountDTO } from '@domain/accounts/dtos/account.dto';
+import { Controller, Get, Param, Put } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SwaggerDocDecorator } from 'src/commons/decorators/swagger-doc.decorator';
 import { ErrorsMessage, ErrorsSource } from 'src/commons/errors/enums';
@@ -10,12 +12,14 @@ import { handleError } from 'src/commons/errors/functions';
 export class AccountsV1Controller {
   constructor(
     private readonly findAccountByNumberService: FindAccountByNumberService,
+    private readonly updateAccountStatusService: UpdateAccountStatusService,
   ) {}
 
   @Get('/:accountNumber')
   @ApiResponse({
     status: 200,
     description: 'Conta Encontrada',
+    type: AccountDTO,
   })
   @ApiResponse({
     status: 404,
@@ -31,6 +35,39 @@ export class AccountsV1Controller {
       return await this.findAccountByNumberService.execute(accountNumber);
     } catch (error) {
       handleError(ErrorsSource.FIND_ACCOUNT_BY_NUMBER, error);
+    }
+  }
+
+  @Put('/:accountNumber/:status')
+  @ApiResponse({
+    status: 200,
+    description: 'Conta atualizada com sucesso',
+    type: AccountDTO,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Erro ao procurar conta no banco de dados',
+    example: {
+      message: ErrorsMessage.ACCOUNT_NOT_CREATED,
+      source: ErrorsSource.UPDATE_STATUS_ACCOUNT,
+    },
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Status Invalido',
+  })
+  @SwaggerDocDecorator('atualização de status nas contas salvas no banco')
+  async updateStatus(
+    @Param('accountNumber') accountNumber: number,
+    @Param('status') status: string,
+  ) {
+    try {
+      return await this.updateAccountStatusService.execute(
+        accountNumber,
+        status,
+      );
+    } catch (error) {
+      handleError(ErrorsSource.UPDATE_STATUS_ACCOUNT, error);
     }
   }
 }
