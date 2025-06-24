@@ -1,50 +1,64 @@
-# Cenário
+# DESAFIO DEV API REST
 
-A Dock está crescendo e expandindo seus negócios, gerando novas oportunidades de revolucionar o mercado financeiro e criar produtos diferenciados.
-Nossa próxima missão é construir uma nova conta digital Dock para nossos clientes utilizarem através de endpoints, onde receberemos requisições em um novo backend que deverá gerenciar as contas e seus portadores (os donos das contas digitais).
+API Rest feita para o desafio <https://github.com/cdt-baas/desafio-dev-api-rest>
 
-# Requisitos
+## Sobre
 
-- Deve ser possível criar e remover **portadores**
-    - Um **portador** deve conter apenas seu *nome completo* e *CPF*
-    - O *CPF* deve ser válido e único no cadastro de **portadores**
-- As **contas digital Dock** devem conter as seguintes funcionalidades:
-    - A conta deve ser criada utilizando o *CPF* do **portador**
-    - Uma conta deve ter seu *saldo*, *número* e *agência* disponíveis para consulta
-    - Necessário ter funcionalidade para fazer a *consulta de extrato* da conta *por período*
-    - Um **portador** pode fechar a **conta digital Dock** a qualquer instante
-    - Executar as operações de *saque* e *depósito*
-        - *Depósito* é liberado para todas as *contas ativas* e *desbloqueadas*
-        - *Saque* é permitido para todas as *contas ativas* e *desbloqueadas* desde que haja *saldo disponível* e não ultrapasse o limite diário de *2 mil reais*
+Essa é uma API Rest feita para gerenciar contas bancarias e seus respectivos saldos, nela é possivel:
 
-## Regulação obrigatória
+- Criar um novo portador junto com uma conta referente ao mesmo
+- atualizar o status da conta para bloqueado, ativa ou inativa
+- fazer o saque de um valor depositado na conta
+- fazer o deposito de valores na conta
+- remove um portador junto com sua respectiva conta do banco de dados
+- pegar o extrato das transações de uma respectiva conta por periodo
 
-- Precisamos *bloquear* e *desbloquear* a **conta digital Dock** a qualquer momento
-- A **conta digital Dock** nunca poderá ter o *saldo negativo*
+## Como rodar
 
+1. Clone este repositorio
+2. instale o docker e o docker compose na sua maquina
+3. crie uma .env com os valores presente no arquivo .env.example que esta no projeto
+4. rode o comando `docker compose up` para iniciar o projeto
+5. seu projeto estara rodando na url: <http://localhost:3000/>
 
-#  Orientações
+## Rotas disponiveis
 
-Utilize qualquer uma das linguagens de programação:
-- Java
-- Javascript
-- Typescript
-- Python
-- Kotlin
-- Golang
+As rotas disponiveis podem ser visualizadas utilizando o swagger que esta presente no proprio projeto.
 
-Desenvolva o case seguindo as melhores práticas que julgar necessário, aplique todos os conceitos, se atente a qualidade, utilize toda e qualquer forma de governança de código válido. Vamos considerar toda e qualquer implementação, trecho de código, documentação e/ou intenção compartilhada conosco. Esperamos também que o desafio seja feito dentro do tempo disponibilizado e que esteja condizente com a posição pretendida.
+Ao rodar o projeto acesse o endpoint /doc para visualizar os endpoints disponiveis e suas respectivas respostas. Se seguiu os passos anteriores de como rodar é possivel acessar a documentação pela url <http://localhost:3000/doc>
 
-É necessário ter o desafio 100% funcional contendo informações e detalhes sobre: como iniciar a aplicação, interagir com as funcionalidades disponíveis e qualquer outro ponto adicional.
+É Possivel fazer requisições utilizando o proprio swagger caso prefira
 
-## Diferenciais
+## como rodar os testes
 
-- Práticas, padrões e conceitos de microservices será considerado um diferencial para nós por existir uma variedade de produtos e serviços dentro da Dock.
-- Temos 100% das nossas aplicações e infraestrutura na nuvem, consideramos um diferencial, caso o desafio seja projeto para ser executado na nuvem.
-- Nossos times são autônomos e têm liberdade para definir arquiteturas e soluções. Por este motivo será considerado diferencial toda: arquitetura, design, paradigma e documentação detalhando a sua abordagem.
+1. Clone este repositorio
+2. rode os testes unitarios executando o comando `npm run test`
+3. Rode os testes end to end executando o comando `npm run test:e2e`
 
-### Instruções
-      1. Faça o fork do desafio;
-      2. Crie um repositório privado no seu github para o projeto e adicione como colaborador, os usuários informados no email pelo time de recrutameto ;
-      3. Após concluir seu trabalho faça um push; 
-      4. Envie um e-mail à pessoa que está mantendo o contato com você durante o processo notificando a finalização do desafio para validação.
+## melhorias e observações
+
+- Inicialmente foi feito a criação de conta junto com a criação de um portador para facilidade de implementação no caso de uma relação 1 para 1 e por não ver a necessidade de uma criação manual de contas
+- idealmente o número da conta seria um valor de 8 a 12 dígitos de acordo, mas para propósitos de simplificação de código e facilidade de leitura escolhi a abordagem de um número incremental no banco de dados.
+- Pensando em microsserviços acredito que seria interessante separar o projeto em 2 possíveis serviços diferentes, um de extrato, e um para contas e portadores, projeto foi separado de forma que a migração do mesmo para os serviços mencionados fosse feita de forma simples.
+- Olhando para a segurança do projeto esses endpoints deveriam estar em um servidor que não tivesse sua rota exposta para o acesso publico e um token de autenticação seria uma boa evolução para garantir que apenas usuários permitidos acessem as rotas corretas
+- Na criação de um novo portador foi removido as informações de erros de banco de dados como no caso de um cpf duplicado para prevenir vazamento de informações sensíveis
+- Foi criado um endpoint para atualização de status que seria utilizado tanto para o bloqueio, desbloqueio ou cancelamento de uma conta Dock, a ideia seria com a implementação de uma autenticação validar a permissão do usuário relacionado ao status escolhido, então o próprio portador só teria a possibilidade de bloquear enquanto um administrador da Dock poderia bloquear, desbloquear ou inativar uma conta através do numero da mesma
+- Idealmente todas a rotas e consumidores deveriam ser testados com testes end to end ou de integração, mas devido ao curto periodo não foi possivel finalizar todos os testes end to end, porém todas as services foram testados com testes unitarios
+
+## Teconologias
+
+Foram utilizadas as seguintes ferramentas e frameworks para a criação deste projeto:<br>
+
+<p>
+  <img style='margin: 5px;' src='https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white'>
+  <img style='margin: 5px;' src='https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=whiteE'>
+  <img style='margin: 5px;' src='https://img.shields.io/badge/PostgreSQL-000?style=for-the-badge&logo=postgresql'>
+  <img style='margin: 5px;' src="https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white"/>
+  <img style='margin: 5px;' src="https://img.shields.io/badge/Docker-2CA5E0?style=for-the-badge&logo=docker&logoColor=white"/>
+  <img style='margin: 5px;' src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white"/>
+  <img style='margin: 5px;' src="https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white"/>
+  <img style='margin: 5px;' alt="Static Badge" src="https://img.shields.io/badge/RabbitMQ-FF6600?style=for-the-badge&logo=rabbitmq&logoColor=%23FFFFFF">
+  <img style='margin: 5px;' alt="Static Badge" src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=%23FFFFFF">
+  <img style='margin: 5px;' alt="Static Badge" src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=%23FFFFFF">
+  
+</p>

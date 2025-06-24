@@ -38,9 +38,6 @@ export class AccountBalanceMovementService {
           : acc,
       0,
     );
-    console.log(
-      `Total de saques no período: ${totalWithdrawals}, Tipo: ${type}, Valor: ${amount}`,
-    );
 
     if (totalWithdrawals + amount > 2000 && type === MovementType.OUT)
       throw new AccountBalanceMovementForbiddenForValue(
@@ -55,9 +52,6 @@ export class AccountBalanceMovementService {
         ? Number(account.balance) + amount
         : Number(account.balance) - amount;
 
-    console.log(
-      `Movimentação de conta: ${accountNumber}, Tipo: ${type}, Valor: ${amount}, Novo Saldo: ${newBalance}`,
-    );
     if (newBalance < 0)
       throw new AccountBalanceInvalid(ErrorsSource.BALANCE_MOVEMENT);
 
@@ -77,5 +71,3 @@ export class AccountBalanceMovementService {
     };
   }
 }
-
-//TODO: implementar limite diario de saque utilizando a requisição de extrato

@@ -100,7 +100,7 @@ describe('FindAccountByNumber', () => {
 
     describe('And a withdrawal limit exceeded', () => {
       describe('When executing use case', () => {
-        it.only('Should throw AccountBalanceInvalid error', async () => {
+        it('Should throw AccountBalanceInvalid error', async () => {
           expect.assertions(1);
 
           mockRepository.findByAccountNumber.mockResolvedValue({

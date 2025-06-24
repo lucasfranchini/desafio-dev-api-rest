@@ -1,7 +1,7 @@
 import { AccountBalanceMovementService } from '@application/accounts/v1/account-balance-movement.service';
 import { FindAccountByNumberService } from '@application/accounts/v1/find-account-by-number.service';
 import { UpdateAccountStatusService } from '@application/accounts/v1/update-account-status.service';
-import { AccountDTO } from '@domain/accounts/dtos/account.dto';
+import { AccountStatus } from '@domain/accounts/enums/accountStatus';
 import {
   Body,
   Controller,
@@ -16,6 +16,7 @@ import { BalanceMovementValidator } from '@presentation/accounts/validators/bala
 import { SwaggerDocDecorator } from 'src/commons/decorators/swagger-doc.decorator';
 import { ErrorsMessage, ErrorsSource } from 'src/commons/errors/enums';
 import { handleError } from 'src/commons/errors/functions';
+import { accountStub } from 'test/stub/account.stub';
 
 @ApiTags('accounts')
 @Controller({ version: '1', path: 'accounts' })
@@ -30,7 +31,7 @@ export class AccountsV1Controller {
   @ApiResponse({
     status: 200,
     description: 'Conta Encontrada',
-    type: AccountDTO,
+    example: accountStub,
   })
   @ApiResponse({
     status: 404,
@@ -53,7 +54,7 @@ export class AccountsV1Controller {
   @ApiResponse({
     status: 200,
     description: 'Conta atualizada com sucesso',
-    type: AccountDTO,
+    example: accountStub,
   })
   @ApiResponse({
     status: 404,
@@ -67,10 +68,12 @@ export class AccountsV1Controller {
     status: 400,
     description: 'Status Invalido',
   })
-  @SwaggerDocDecorator('atualização de status nas contas salvas no banco')
+  @SwaggerDocDecorator(
+    'atualização de status nas contas salvas no banco para os status ACTIVE, INACTIVE e BLOCKED',
+  )
   async updateStatus(
     @Param('accountNumber') accountNumber: number,
-    @Param('status') status: string,
+    @Param('status') status: AccountStatus,
   ) {
     try {
       return await this.updateAccountStatusService.execute(
@@ -87,6 +90,9 @@ export class AccountsV1Controller {
   @ApiResponse({
     status: 200,
     description: 'movimentação de saldo realizada com sucesso',
+    example: {
+      updatedBalance: 100.0,
+    },
   })
   @ApiResponse({
     status: 400,
@@ -101,5 +107,3 @@ export class AccountsV1Controller {
     }
   }
 }
-
-//TODO: adicionar tupagem para documentação do swagger

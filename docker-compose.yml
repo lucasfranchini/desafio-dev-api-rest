@@ -10,6 +10,13 @@ services:
       - .:/usr/src/app
     env_file:
       - .env
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+      rabbitmq:
+        condition: service_healthy
+        restart: true
   db:
     image: postgres:13
     container_name: 'desafio-dev-api-rest-db'

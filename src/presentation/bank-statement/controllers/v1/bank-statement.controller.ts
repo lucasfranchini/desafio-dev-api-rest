@@ -40,7 +40,7 @@ export class BankStatementController {
           source: ErrorsSource.GET_BANK_STATEMENT,
         });
       }
-      console.log(Number(accountNumber));
+
       const start = new Date(startDate);
       const end = new Date(endDate);
       if (isNaN(start.getTime()) || isNaN(end.getTime())) {
@@ -49,6 +49,7 @@ export class BankStatementController {
           source: ErrorsSource.GET_BANK_STATEMENT,
         });
       }
+
       return await this.getBankStatementService.execute(
         start,
         end,
