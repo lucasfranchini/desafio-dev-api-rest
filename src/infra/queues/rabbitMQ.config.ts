@@ -3,7 +3,7 @@ import {
   RabbitOptionsFactory,
 } from '@bgaldino/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
-import { BankStatementConsumer } from '@presentation/bank-statemente/bank-statemente.consumer';
+import { BankStatementConsumer } from '@presentation/bank-statemente/bank-statement.consumer';
 
 @Injectable()
 export class RabbitMQConfig implements RabbitOptionsFactory {
@@ -12,11 +12,11 @@ export class RabbitMQConfig implements RabbitOptionsFactory {
   static bindings() {
     return {
       exchangeBankStatement: String(
-        process.env.RABBITMQ_BANK_STATEMENTE_EXCHANGE,
+        process.env.RABBITMQ_BANK_STATEMENT_EXCHANGE,
       ),
-      queueBankStatement: String(process.env.RABBITMQ_BANK_STATEMENTE_QUEUE),
+      queueBankStatement: String(process.env.RABBITMQ_BANK_STATEMENT_QUEUE),
       routingKeyBankStatement: String(
-        process.env.RABBITMQ_BANK_STATEMENTE_ROUTINGKEY,
+        process.env.RABBITMQ_BANK_STATEMENT_ROUTINGKEY,
       ),
       prefetch: 1,
       delay: 1000,
