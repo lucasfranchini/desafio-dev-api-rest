@@ -28,6 +28,10 @@ export class BearersV1Controller {
   @ApiResponse({
     status: 201,
     description: 'Criado com sucesso',
+    example: {
+      document: '12345678909',
+      accountNumber: 1,
+    },
   })
   @ApiResponse({ status: 400, description: 'Erro ao tentar criar um portador' })
   async createBearer(@Body() body: CreateBearerValidator) {

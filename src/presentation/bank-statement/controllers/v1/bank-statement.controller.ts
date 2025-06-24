@@ -1,4 +1,5 @@
 import { GetBankStatementService } from '@application/bank-statement/v1/get-bank-statement.service';
+import { BankStatementDTO } from '@domain/bank-statements/bank-statement.dto';
 import {
   BadRequestException,
   Controller,
@@ -6,7 +7,8 @@ import {
   ParseIntPipe,
   Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { SwaggerDocDecorator } from 'src/commons/decorators/swagger-doc.decorator';
 import { ErrorsSource } from 'src/commons/errors/enums';
 import { handleError } from 'src/commons/errors/functions';
 
@@ -18,6 +20,18 @@ export class BankStatementController {
   ) {}
 
   @Get()
+  @SwaggerDocDecorator(
+    'Busca do extrato bancari de uma conta baseado em um periodo',
+  )
+  @ApiResponse({
+    status: 400,
+    description: 'Erro ao tentar buscar extrato bancario, parametros ivalidos',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Extrato bancario buscado com sucesso',
+    type: [BankStatementDTO],
+  })
   async getBankStatement(
     @Query('startDate') startDate: string,
     @Query('endDate') endDate: string,

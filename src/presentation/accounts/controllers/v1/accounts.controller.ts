@@ -1,6 +1,7 @@
 import { AccountBalanceMovementService } from '@application/accounts/v1/account-balance-movement.service';
 import { FindAccountByNumberService } from '@application/accounts/v1/find-account-by-number.service';
 import { UpdateAccountStatusService } from '@application/accounts/v1/update-account-status.service';
+import { AccountDTO } from '@domain/accounts/dtos/account.dto';
 import { AccountStatus } from '@domain/accounts/enums/accountStatus';
 import {
   Body,
@@ -16,7 +17,6 @@ import { BalanceMovementValidator } from '@presentation/accounts/validators/bala
 import { SwaggerDocDecorator } from 'src/commons/decorators/swagger-doc.decorator';
 import { ErrorsMessage, ErrorsSource } from 'src/commons/errors/enums';
 import { handleError } from 'src/commons/errors/functions';
-import { accountStub } from 'test/stub/account.stub';
 
 @ApiTags('accounts')
 @Controller({ version: '1', path: 'accounts' })
@@ -31,7 +31,7 @@ export class AccountsV1Controller {
   @ApiResponse({
     status: 200,
     description: 'Conta Encontrada',
-    example: accountStub,
+    type: AccountDTO,
   })
   @ApiResponse({
     status: 404,
@@ -54,7 +54,7 @@ export class AccountsV1Controller {
   @ApiResponse({
     status: 200,
     description: 'Conta atualizada com sucesso',
-    example: accountStub,
+    type: AccountDTO,
   })
   @ApiResponse({
     status: 404,
