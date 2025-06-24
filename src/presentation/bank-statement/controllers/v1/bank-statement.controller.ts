@@ -1,4 +1,5 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { GetBankStatementService } from '@application/bank-statement/v1/get-bank-statement.service';
+import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ErrorsSource } from 'src/commons/errors/enums';
 import { handleError } from 'src/commons/errors/functions';
@@ -16,7 +17,21 @@ export class BankStatementController {
     @Query('endDate') endDate: string,
   ) {
     try {
-      return await this.getBankStatementService.execute(startDate, endDate);
+      if (!startDate || !endDate) {
+        throw new BadRequestException({
+          message: 'StartDate e EndDate são obrigatórios',
+          source: ErrorsSource.GET_BANK_STATEMENT,
+        });
+      }
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+        throw new BadRequestException({
+          message: 'Datas inválidas',
+          source: ErrorsSource.GET_BANK_STATEMENT,
+        });
+      }
+      return await this.getBankStatementService.execute(start, end);
     } catch (error) {
       handleError(ErrorsSource.GET_BANK_STATEMENT, error);
     }

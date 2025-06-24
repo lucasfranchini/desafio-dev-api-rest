@@ -5,16 +5,15 @@ import {
   Selectable,
   Updateable,
 } from 'kysely';
-import { AccountSchema } from './account.schema';
 
 export interface BankStatementSchema {
   id: Generated<number>;
   type: string;
   amount: number;
   accountNumber: number;
+  timestamp: Date;
   createdAt: ColumnType<Date, undefined, never>;
   updatedAt: ColumnType<Date, undefined, never>;
-  account?: AccountSchema;
 }
 
 export type BankStatement = Selectable<BankStatementSchema>;

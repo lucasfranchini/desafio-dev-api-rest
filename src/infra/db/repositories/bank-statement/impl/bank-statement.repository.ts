@@ -14,4 +14,14 @@ export class BankStatementRepositoryImpl implements BankStatementRepository {
       .returning('id')
       .executeTakeFirstOrThrow();
   }
+
+  async getBankStatementByDate(startDate: Date, endDate: Date) {
+    return await this.dataSource
+      .selectFrom('bankStatement')
+      .where('timestamp', '>=', startDate)
+      .where('timestamp', '<=', endDate)
+      .select(['id', 'accountNumber', 'amount', 'type', 'timestamp'])
+      .orderBy('timestamp', 'asc')
+      .execute();
+  }
 }

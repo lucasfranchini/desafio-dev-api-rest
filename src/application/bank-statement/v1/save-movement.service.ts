@@ -12,9 +12,10 @@ export class SaveMovementService {
 
   async execute(bankStatementTransaction: BankStatementCreateDTO) {
     try {
-      return await this.bankStatementRepository.create(
-        bankStatementTransaction,
-      );
+      return await this.bankStatementRepository.create({
+        ...bankStatementTransaction,
+        timestamp: new Date(),
+      });
     } catch (error: any) {
       throw new BankStatementNotCreated(
         ErrorsSource.SAVE_MOVEMENT,
