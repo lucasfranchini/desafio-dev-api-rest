@@ -53,6 +53,7 @@ export class RabbitMQConfig implements RabbitOptionsFactory {
             autoAck: true,
             retryStrategy: {
               enabled: true,
+              maxAttempts: 5,
               delay: (attempts: number) => attempts * bindings.delay,
             },
           },

@@ -1,8 +1,12 @@
+import { SaveMovementService } from '@application/bank-statement/v1/save-movement.usecase';
+import { BankStatementCreateDTO } from '@domain/bank-statements/bank-statement.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class BankStatementConsumer {
-  async handleBankStatementMessage(message: any): Promise<void> {
-    console.log('Received bank statement message:', message);
+  constructor(private readonly saveMovementService: SaveMovementService) {}
+
+  async handleBankStatementMessage(message: BankStatementCreateDTO) {
+    await this.saveMovementService.execute(message);
   }
 }

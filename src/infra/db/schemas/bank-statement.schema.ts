@@ -11,7 +11,7 @@ export interface BankStatementSchema {
   id: Generated<number>;
   type: string;
   amount: number;
-  accountId: number;
+  accountNumber: number;
   createdAt: ColumnType<Date, undefined, never>;
   updatedAt: ColumnType<Date, undefined, never>;
   account?: AccountSchema;
