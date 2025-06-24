@@ -2,7 +2,7 @@ import { RabbitMQModule } from '@bgaldino/nestjs-rabbitmq';
 import { RabbitMQConfig } from '@infra/queues/rabbitMQ.config';
 import { Module } from '@nestjs/common';
 import { AccountsModule } from './accounts/accounts.module';
-import { BankStatementModule } from './bank-statemente/bank-statement.module';
+import { BankStatementModule } from './bank-statement/bank-statement.module';
 import { BearersModule } from './bearers/bearers.module';
 
 @Module({
