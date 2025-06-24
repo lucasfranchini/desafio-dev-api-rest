@@ -3,8 +3,6 @@ export class BankStatementDTO {
   accountNumber: number;
   type: string;
   amount: number;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export class BankStatementCreateDTO {

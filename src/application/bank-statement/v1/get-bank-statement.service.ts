@@ -8,11 +8,12 @@ export class GetBankStatementService {
   constructor(
     private readonly bankStatementRepository: BankStatementRepository,
   ) {}
-  async execute(startDate: Date, endDate: Date): Promise<any> {
+  async execute(startDate: Date, endDate: Date, accountNumber: number) {
     try {
       return await this.bankStatementRepository.getBankStatementByDate(
         startDate,
         endDate,
+        accountNumber,
       );
     } catch (error: any) {
       throw new BankStatementNotFound(ErrorsSource.SAVE_MOVEMENT, error);

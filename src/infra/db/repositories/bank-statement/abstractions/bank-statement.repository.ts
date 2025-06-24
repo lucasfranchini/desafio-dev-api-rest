@@ -1,3 +1,4 @@
+import { BankStatementDTO } from '@domain/bank-statements/bank-statement.dto';
 import { NewBankStatement } from '@infra/db/schemas/bank-statement.schema';
 
 export abstract class BankStatementRepository {
@@ -5,5 +6,6 @@ export abstract class BankStatementRepository {
   abstract getBankStatementByDate(
     startDate: Date,
     endDate: Date,
-  ): Promise<NewBankStatement[]>;
+    accountNumber: number,
+  ): Promise<BankStatementDTO[]>;
 }

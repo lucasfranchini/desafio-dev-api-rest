@@ -1,5 +1,11 @@
 import { GetBankStatementService } from '@application/bank-statement/v1/get-bank-statement.service';
-import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  ParseIntPipe,
+  Query,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ErrorsSource } from 'src/commons/errors/enums';
 import { handleError } from 'src/commons/errors/functions';
@@ -15,14 +21,26 @@ export class BankStatementController {
   async getBankStatement(
     @Query('startDate') startDate: string,
     @Query('endDate') endDate: string,
+    @Query(
+      'accountNumber',
+      new ParseIntPipe({
+        exceptionFactory: () =>
+          new BadRequestException({
+            message: 'AccountNumber precisa ser um numero inteiro',
+            source: ErrorsSource.GET_BANK_STATEMENT,
+          }),
+      }),
+    )
+    accountNumber: number,
   ) {
     try {
-      if (!startDate || !endDate) {
+      if (!startDate || !endDate || !accountNumber) {
         throw new BadRequestException({
-          message: 'StartDate e EndDate são obrigatórios',
+          message: 'StartDate, EndDate e AccountNumber são obrigatórios',
           source: ErrorsSource.GET_BANK_STATEMENT,
         });
       }
+      console.log(Number(accountNumber));
       const start = new Date(startDate);
       const end = new Date(endDate);
       if (isNaN(start.getTime()) || isNaN(end.getTime())) {
@@ -31,7 +49,11 @@ export class BankStatementController {
           source: ErrorsSource.GET_BANK_STATEMENT,
         });
       }
-      return await this.getBankStatementService.execute(start, end);
+      return await this.getBankStatementService.execute(
+        start,
+        end,
+        accountNumber,
+      );
     } catch (error) {
       handleError(ErrorsSource.GET_BANK_STATEMENT, error);
     }

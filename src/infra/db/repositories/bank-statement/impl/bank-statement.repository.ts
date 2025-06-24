@@ -15,11 +15,16 @@ export class BankStatementRepositoryImpl implements BankStatementRepository {
       .executeTakeFirstOrThrow();
   }
 
-  async getBankStatementByDate(startDate: Date, endDate: Date) {
+  async getBankStatementByDate(
+    startDate: Date,
+    endDate: Date,
+    accountNumber: number,
+  ) {
     return await this.dataSource
       .selectFrom('bankStatement')
       .where('timestamp', '>=', startDate)
       .where('timestamp', '<=', endDate)
+      .where('accountNumber', '=', accountNumber)
       .select(['id', 'accountNumber', 'amount', 'type', 'timestamp'])
       .orderBy('timestamp', 'asc')
       .execute();

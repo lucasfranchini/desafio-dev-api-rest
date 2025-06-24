@@ -6,6 +6,7 @@ export enum ErrorsMessage {
   BEARER_NOT_DELETED = 'Não foi possivel deletar o portador no banco de dados',
   ACCOUNT_BALANCE_INVALID = 'O saldo da conta não pode ser negativo',
   ACCOUNT_BALANCE_MOVEMENT_FORBIDDEN = 'Movimentação de conta não permitida para o status atual',
+  ACCOUNT_BALANCE_MOVEMENT_FORBIDDEN_FOR_VALUE = 'Movimentação de saque não permitida para o valor atual',
   BANK_STATEMENT_NOT_CREATED = 'Não foi possivel salvara transação no banco de dados do extrato',
   BANK_STATEMENT_NOT_FOUND = 'Erro ao buscar extrato bancário no banco de dados',
 }

@@ -30,7 +30,7 @@ describe('CreateBearerService', () => {
             },
           ]);
 
-        const output = await getBankStatementService.execute(date, date);
+        const output = await getBankStatementService.execute(date, date, 1);
 
         expect(output).toEqual([
           {
@@ -55,7 +55,7 @@ describe('CreateBearerService', () => {
           });
 
         await expect(
-          getBankStatementService.execute(date, 'invalid-date' as any),
+          getBankStatementService.execute(date, 'invalid-date' as any, 1),
         ).rejects.toThrow(ErrorsMessage.BANK_STATEMENT_NOT_FOUND);
       });
     });
