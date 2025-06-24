@@ -22,4 +22,13 @@ export class AccountRepositoryImpl implements AccountRepository {
       .returningAll()
       .executeTakeFirst();
   }
+
+  async updateBalance(accountNumber: number, balance: number) {
+    return await this.dataSource
+      .updateTable('account')
+      .set({ balance })
+      .where('number', '=', accountNumber)
+      .returning('balance')
+      .executeTakeFirst();
+  }
 }

@@ -6,4 +6,9 @@ export abstract class AccountRepository {
     accountNumber: number,
     status: string,
   ): Promise<Account>;
+
+  abstract updateBalance(
+    accountNumber: number,
+    balance: number,
+  ): Promise<{ balance: number }>;
 }

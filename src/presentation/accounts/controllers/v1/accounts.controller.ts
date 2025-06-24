@@ -1,3 +1,4 @@
+import { AccountBalanceMovementService } from '@application/accounts/v1/account-balance-movement.usecase';
 import { FindAccountByNumberService } from '@application/accounts/v1/find-account-by-number.usecase';
 import { UpdateAccountStatusService } from '@application/accounts/v1/update-account-status';
 import { AccountDTO } from '@domain/accounts/dtos/account.dto';
@@ -22,6 +23,7 @@ export class AccountsV1Controller {
   constructor(
     private readonly findAccountByNumberService: FindAccountByNumberService,
     private readonly updateAccountStatusService: UpdateAccountStatusService,
+    private readonly accountBalanceMovementService: AccountBalanceMovementService,
   ) {}
 
   @Get('/:accountNumber')
@@ -93,7 +95,7 @@ export class AccountsV1Controller {
   @SwaggerDocDecorator('movimentação do saldo da conta')
   async balanceMovement(@Body() body: BalanceMovementValidator) {
     try {
-      console.log(body);
+      return await this.accountBalanceMovementService.execute(body);
     } catch (error) {
       handleError(ErrorsSource.UPDATE_STATUS_ACCOUNT, error);
     }
