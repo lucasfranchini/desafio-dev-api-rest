@@ -1,7 +1,7 @@
 import { createMock } from '@golevelup/ts-jest';
 import { BankStatementRepository } from '@infra/db/repositories/bank-statement/abstractions/bank-statement.repository';
 import { ErrorsMessage } from 'src/commons/errors/enums';
-import { SaveMovementService } from './save-movement.usecase';
+import { SaveMovementService } from './save-movement.service';
 
 describe('CreateBearerService', () => {
   let saveMovementService: SaveMovementService;

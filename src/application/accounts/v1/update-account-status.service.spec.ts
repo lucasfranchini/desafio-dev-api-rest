@@ -3,7 +3,7 @@ import { createMock } from '@golevelup/ts-jest';
 import { AccountRepository } from '@infra/db/repositories/accounts/abstractions/account.repository';
 import { ErrorsMessage } from 'src/commons/errors/enums';
 import { accountStub } from 'test/stub/account.stub';
-import { UpdateAccountStatusService } from './update-account-status';
+import { UpdateAccountStatusService } from './update-account-status.service';
 describe('UpdateAccountUsecase', () => {
   let updateAccountStatusService: UpdateAccountStatusService;
   let mockRepository: AccountRepository;

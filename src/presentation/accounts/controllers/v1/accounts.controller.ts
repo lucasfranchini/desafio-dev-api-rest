@@ -1,6 +1,6 @@
-import { AccountBalanceMovementService } from '@application/accounts/v1/account-balance-movement.usecase';
-import { FindAccountByNumberService } from '@application/accounts/v1/find-account-by-number.usecase';
-import { UpdateAccountStatusService } from '@application/accounts/v1/update-account-status';
+import { AccountBalanceMovementService } from '@application/accounts/v1/account-balance-movement.service';
+import { FindAccountByNumberService } from '@application/accounts/v1/find-account-by-number.service';
+import { UpdateAccountStatusService } from '@application/accounts/v1/update-account-status.service';
 import { AccountDTO } from '@domain/accounts/dtos/account.dto';
 import {
   Body,

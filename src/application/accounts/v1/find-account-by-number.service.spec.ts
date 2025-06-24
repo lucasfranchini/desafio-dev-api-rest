@@ -2,7 +2,7 @@ import { createMock } from '@golevelup/ts-jest';
 import { AccountRepository } from '@infra/db/repositories/accounts/abstractions/account.repository';
 import { AccountsNotFound } from 'src/commons/errors/custom-exceptions/accounts-not-found';
 import { accountStub } from 'test/stub/account.stub';
-import { FindAccountByNumberService } from './find-account-by-number.usecase';
+import { FindAccountByNumberService } from './find-account-by-number.service';
 
 describe('FindAccountByNumber', () => {
   let mockRepository: jest.Mocked<AccountRepository>;

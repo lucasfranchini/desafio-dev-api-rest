@@ -3,7 +3,7 @@ import {
   RabbitOptionsFactory,
 } from '@bgaldino/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
-import { BankStatementConsumer } from '@presentation/bank-statemente/bank-statement.consumer';
+import { BankStatementConsumer } from '@presentation/bank-statemente/consumers/bank-statement.consumer';
 
 @Injectable()
 export class RabbitMQConfig implements RabbitOptionsFactory {

@@ -1,4 +1,4 @@
-import { SaveMovementService } from '@application/bank-statement/v1/save-movement.usecase';
+import { SaveMovementService } from '@application/bank-statement/v1/save-movement.service';
 import { BankStatementCreateDTO } from '@domain/bank-statements/bank-statement.dto';
 import { Injectable } from '@nestjs/common';
 

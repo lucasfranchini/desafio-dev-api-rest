@@ -6,7 +6,7 @@ import { AccountBalanceInvalid } from 'src/commons/errors/custom-exceptions/acco
 import { AccountBalanceMovementForbidden } from 'src/commons/errors/custom-exceptions/account-balance-movement-Forbidden';
 import { AccountsNotFound } from 'src/commons/errors/custom-exceptions/accounts-not-found';
 import { accountStub } from 'test/stub/account.stub';
-import { AccountBalanceMovementService } from './account-balance-movement.usecase';
+import { AccountBalanceMovementService } from './account-balance-movement.service';
 
 describe('FindAccountByNumber', () => {
   let mockRepository: jest.Mocked<AccountRepository>;
