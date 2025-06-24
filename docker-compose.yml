@@ -12,7 +12,7 @@ services:
       - .env
   db:
     image: postgres:13
-    container_name: 'dock-baas-accounts-svc-db'
+    container_name: 'desafio-dev-api-rest-db'
     restart: always
     ports:
       - '5432:5432'
@@ -29,7 +29,7 @@ services:
       retries: 5
   rabbitmq:
     image: heidiks/rabbitmq-delayed-message-exchange:latest
-    container_name: drain-events-rabbitmq
+    container_name: desafio-dev-api-rest-rabbitmq
     restart: always
     ports:
       - 5672:5672

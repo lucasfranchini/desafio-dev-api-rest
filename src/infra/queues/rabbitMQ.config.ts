@@ -3,10 +3,11 @@ import {
   RabbitOptionsFactory,
 } from '@bgaldino/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
+import { BankStatementConsumer } from '@presentation/bank-statemente/bank-statemente.consumer';
 
 @Injectable()
 export class RabbitMQConfig implements RabbitOptionsFactory {
-  constructor(private readonly bankStatementeConsumer: any) {}
+  constructor(private readonly bankStatementConsumer: BankStatementConsumer) {}
 
   static bindings() {
     return {
@@ -39,9 +40,10 @@ export class RabbitMQConfig implements RabbitOptionsFactory {
       ],
       consumerChannels: [
         {
-          messageHandler: this.bankStatementeConsumer.schedulePayment.bind(
-            this.bankStatementeConsumer,
-          ),
+          messageHandler:
+            this.bankStatementConsumer.handleBankStatementMessage.bind(
+              this.bankStatementConsumer,
+            ),
           options: {
             exchangeName: bindings.exchangeBankStatement,
             queue: bindings.queueBankStatement,
