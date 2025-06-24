@@ -3,6 +3,7 @@ import { createMock } from '@golevelup/ts-jest';
 import { AccountRepository } from '@infra/db/repositories/accounts/abstractions/account.repository';
 import { EventPublisher } from '@infra/queues/abstractions/event-publisher';
 import { AccountBalanceInvalid } from 'src/commons/errors/custom-exceptions/account-balance-invalid';
+import { AccountBalanceMovementForbidden } from 'src/commons/errors/custom-exceptions/account-balance-movement-Forbidden';
 import { AccountsNotFound } from 'src/commons/errors/custom-exceptions/accounts-not-found';
 import { accountStub } from 'test/stub/account.stub';
 import { AccountBalanceMovementService } from './account-balance-movement.usecase';
@@ -24,7 +25,7 @@ describe('FindAccountByNumber', () => {
     }));
   });
 
-  describe('Given a valid Number accountNumber', () => {
+  describe('Given a valid accountNumber', () => {
     describe('And a valid amount', () => {
       describe.each([MovementType.IN, MovementType.OUT])(
         'And a %s movement type',
@@ -92,7 +93,7 @@ describe('FindAccountByNumber', () => {
     });
   });
 
-  describe('Given an invalid Number accountNumber', () => {
+  describe('Given an non existing accountNumber', () => {
     describe('When executing use case', () => {
       it('Should return account not found error', async () => {
         expect.assertions(1);
@@ -107,6 +108,29 @@ describe('FindAccountByNumber', () => {
           });
         } catch (error) {
           expect(error).toBeInstanceOf(AccountsNotFound);
+        }
+      });
+    });
+  });
+
+  describe('Given an invalid accountNumber', () => {
+    describe('When executing use case', () => {
+      it('Should return account not found error', async () => {
+        expect.assertions(1);
+
+        mockRepository.findByAccountNumber.mockResolvedValue({
+          ...accountStub,
+          status: 'INACTIVE',
+        });
+
+        try {
+          await accountBalanceMovementUseCase.execute({
+            type: MovementType.IN,
+            amount: 100,
+            accountNumber: accountStub.number,
+          });
+        } catch (error) {
+          expect(error).toBeInstanceOf(AccountBalanceMovementForbidden);
         }
       });
     });

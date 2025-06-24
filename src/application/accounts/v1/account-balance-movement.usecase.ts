@@ -1,9 +1,11 @@
 import { AccountBalanceMovementDTO } from '@domain/accounts/dtos/account-balance-movement.dto';
+import { AccountStatus } from '@domain/accounts/enums/accountStatus';
 import { MovementType } from '@domain/accounts/enums/movement-type.enum';
 import { AccountRepository } from '@infra/db/repositories/accounts/abstractions/account.repository';
 import { EventPublisher } from '@infra/queues/abstractions/event-publisher';
 import { Injectable } from '@nestjs/common';
 import { AccountBalanceInvalid } from 'src/commons/errors/custom-exceptions/account-balance-invalid';
+import { AccountBalanceMovementForbidden } from 'src/commons/errors/custom-exceptions/account-balance-movement-Forbidden';
 import { AccountsNotFound } from 'src/commons/errors/custom-exceptions/accounts-not-found';
 import { ErrorsSource } from 'src/commons/errors/enums';
 
@@ -19,6 +21,9 @@ export class AccountBalanceMovementService {
       await this.accountRepository.findByAccountNumber(accountNumber);
 
     if (!account) throw new AccountsNotFound(ErrorsSource.BALANCE_MOVEMENT);
+
+    if (account.status !== AccountStatus.ACTIVE)
+      throw new AccountBalanceMovementForbidden(ErrorsSource.BALANCE_MOVEMENT);
 
     const newBalance =
       type === MovementType.IN
