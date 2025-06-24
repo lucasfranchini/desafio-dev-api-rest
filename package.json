@@ -25,6 +25,7 @@
     "migration:down": "ts-node src/infra/db/scripts/down-migrations.ts"
   },
   "dependencies": {
+    "@bgaldino/nestjs-rabbitmq": "^1.5.1",
     "@nestjs/axios": "^4.0.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.2",
